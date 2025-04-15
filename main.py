@@ -10,15 +10,22 @@ def executar_comandos():
     '''
     subprocess.run(["powershell", "-Command", comandos], shell=True)
 
+
+
 # Criando a interface
 janela = tk.Tk()
 janela.title("ZXCASDQWEASDZXC")
-janela.geometry("300x150")
-janela.configure(bg="#1e1e1e")
+janela.geometry("680x402")
 
-# Carregando a imagem
+caminho_fundo = os.path.join("icons", "bg_main.png")  # Substitua pelo nome do seu arquivo
+imagem_fundo_original = Image.open(caminho_fundo)
+imagem_fundo_redimensionada = imagem_fundo_original.resize((680, 402))  # Mesmo tamanho da janela
+imagem_fundo = ImageTk.PhotoImage(imagem_fundo_redimensionada)
+
+fundo = tk.Label(janela, image=imagem_fundo)
+fundo.place(x=0, y=0, relwidth=1, relheight=1)
+
 caminho_imagem = os.path.join("icons", "button_execute.png")
-
 imagem_original = Image.open(caminho_imagem)
 #imagem_redimensionada = imagem_original.resize((100, 100))
 imagem_botao = ImageTk.PhotoImage(imagem_original)
