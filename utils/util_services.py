@@ -1,233 +1,19 @@
-'''
-import subprocess
-from tkinter import messagebox
-def execute_command():
-
-    comando = 'Set-Service ALG -StartupType Manual'
-
-    resultado = subprocess.run(
-        ["powershell", "-Command", comando],
-        capture_output=True, text=True, shell=True
-    )
-
-    if resultado.returncode == 0:
-        messagebox.showinfo("Sucesso", "Otimização de serviços do WINDOWS !")
-    else:
-        messagebox.showerror("Erro", f"Ocorreu um erro:\n{resultado.stderr}")
-'''
-import time
 import subprocess
 from tkinter import messagebox
 
 def execute_command():
+
+    STARTUP_TYPE_MAP = {
+    "Automatic": 2,
+    "Manual": 3,
+    "Disabled": 4
+    }
+
     servicos = {
         "AppIDSvc": "Manual",
         "AppXSvc": "Manual"
     }
-    '''
-    servicos = {
-        "ALG": "Manual",
-       # "AppIDSvc": "Manual",
-        "AppMgmt": "Manual",
-        "AppReadiness": "Manual",
-        "AppVClient": "Disabled",
-       # "AppXSvc": "Manual",
-        "Appinfo": "Manual",
-        "AudioEndpointBuilder": "Automatic",
-        "AudioSrv": "Automatic",
-        "AxInstSV": "Manual",
-        "BDESVC": "Manual",
-       #"BFE": "Automatic",
-        "BTAGService": "Manual",
-       #"BrokerInfrastructure": "Automatic",
-       #"Browser": "Manual",
-        #"BthHFSrv": "Automatic",
-        "COMSysApp": "Manual",
-        "CertPropSvc": "Manual",
-        #"ClipSVC": "Manual",
-        #"CoreMessagingRegistrar": "Automatic",
-        "CryptSvc": "Automatic",
-        "DPS": "Automatic",
-        #"DcomLaunch": "Automatic",
-        #"DcpSvc": "Manual",
-        "DevQueryBroker": "Manual",
-        "DeviceAssociationService": "Manual",
-        "DeviceInstall": "Manual",
-        "Dhcp": "Automatic",
-        "DialogBlockingService": "Disabled",
-        "DispBrokerDesktopSvc": "Automatic",
-        "DisplayEnhancementService": "Manual",
-        "DmEnrollmentSvc": "Manual",
-        #"Dnscache": "Automatic",
-        "EFS": "Manual",
-        "EapHost": "Manual",
-        #"EntAppSvc": "Manual",
-        "EventLog": "Automatic",
-        "EventSystem": "Automatic",
-        "FDResPub": "Manual",
-        "Fax": "Manual",
-        "FontCache": "Automatic",
-        "FrameServer": "Manual",
-        #"FrameServerMonitor": "Manual",
-        "GraphicsPerfSvc": "Manual",
-        #"HomeGroupListener": "Manual",
-        #"HomeGroupProvider": "Manual",
-        "HvHost": "Manual",
-        #"IEEtwCollectorService": "Manual",
-        "IKEEXT": "Manual",
-        "InstallService": "Manual",
-        #"InventorySvc": "Manual",
-        "IpxlatCfgSvc": "Manual",
-        "KtmRm": "Manual",
-        #"LSM": "Automatic",
-        "LanmanServer": "Automatic",
-        "LanmanWorkstation": "Automatic",
-        "LicenseManager": "Manual",
-        "LxpSvc": "Manual",
-        "MSDTC": "Manual",
-        "MSiSCSI": "Manual",
-        #"MapsBroker": "AutomaticDelayedStart",
-        "McpManagementService": "Manual",
-        "MicrosoftEdgeElevationService": "Manual",
-        "MixedRealityOpenXRSvc": "Manual",
-        "NetSetupSvc": "Manual",
-        "NetTcpPortSharing": "Disabled",
-        "Netlogon": "Automatic",
-        "Netman": "Manual",
-        #"NgcCtnrSvc": "Manual",
-        #"NgcSvc": "Manual",
-        "PlugPlay": "Manual",
-        "PolicyAgent": "Manual",
-        "Power": "Automatic",
-        "PrintNotify": "Manual",
-        "ProfSvc": "Automatic",
-        "PushToInstall": "Manual",
-        "QWAVE": "Manual",
-        "RasAuto": "Manual",
-        "RemoteAccess": "Disabled",
-        "RemoteRegistry": "Disabled",
-        "RetailDemo": "Manual",
-        "RmSvc": "Manual",
-        #"RpcEptMapper": "Automatic",
-        "RpcLocator": "Manual",
-        #"RpcSs": "Automatic",
-        "SCPolicySvc": "Manual",
-        "SCardSvr": "Manual",
-        "SDRSVC": "Manual",
-        "SEMgrSvc": "Manual",
-        "SENS": "Automatic",
-        "SSDPSRV": "Manual",
-        "SamSs": "Automatic",
-        "ScDeviceEnum": "Manual",
-        #"Schedule": "Automatic",
-        #"SecurityHealthService": "Manual",
-        #"Sense": "Manual",
-        "SensorDataService": "Manual",
-        "SensorService": "Manual",
-        "SensrSvc": "Manual",
-        "SessionEnv": "Manual",
-        "SharedAccess": "Manual",
-        "SharedRealitySvc": "Manual",
-        "ShellHWDetection": "Automatic",
-        "SmsRouter": "Manual",
-        "Spooler": "Automatic",
-        "SstpSvc": "Manual",
-        "SysMain": "Automatic",
-        #"SystemEventsBroker": "Automatic",
-        "TabletInputService": "Manual",
-        "TapiSrv": "Manual",
-        "Themes": "Automatic",
-        "TieringEngineService": "Manual",
-        "TokenBroker": "Manual",
-        "TrkWks": "Automatic",
-        "TroubleshootingSvc": "Manual",
-        "TrustedInstaller": "Manual",
-        #"UI0Detect": "Manual",
-        "UevAgentService": "Disabled",
-        "UmRdpService": "Manual",
-        "UserManager": "Automatic",
-        #"VGAuthService": "Automatic",
-        #"VMTools": "Automatic",
-        "VSS": "Manual",
-        "VacSvc": "Manual",
-        "W32Time": "Manual",
-        "WEPHOSTSVC": "Manual",
-        "WFDSConMgrSvc": "Manual",
-        "WMPNetworkSvc": "Manual",
-        "WManSvc": "Manual",
-        "WPDBusEnum": "Manual",
-        #"WSService": "Manual",
-        #"WSearch": "AutomaticDelayedStart",
-        #"WaaSMedicSvc": "Manual",
-        "WalletService": "Manual",
-        "WarpJITSvc": "Manual",
-        "WbioSrvc": "Manual",
-        "Wcmsvc": "Automatic",
-        #"WcsPlugInService": "Manual",
-        #"WdNisSvc": "Manual",
-        "WebClient": "Manual",
-        "Wecsvc": "Manual",
-        "WerSvc": "Manual",
-        "WiaRpc": "Manual",
-        #"WinDefend": "Automatic",
-        #"WinHttpAutoProxySvc": "Manual",
-        "WinRM": "Manual",
-        "Winmgmt": "Automatic",
-        "WlanSvc": "Automatic",
-        "WpcMonSvc": "Manual",
-        "autotimesvc": "Manual",
-        "bthserv": "Manual",
-        "camsvc": "Manual",
-        "cloudidsvc": "Manual",
-        "dcsvc": "Manual",
-        "defragsvc": "Manual",
-        "diagsvc": "Manual",
-        "dmwappushservice": "Manual",
-        "dot3svc": "Manual",
-        "edgeupdatem": "Manual",
-        #"embeddedmode": "Manual",
-        "fdPHost": "Manual",
-        "fhsvc": "Manual",
-        #"gpsvc": "Automatic",
-        "hidserv": "Manual",
-        "icssvc": "Manual",
-        "iphlpsvc": "Automatic",
-        "lfsvc": "Manual",
-        "lltdsvc": "Manual",
-        "lmhosts": "Manual",
-        #"msiserver": "Manual",
-        "netprofm": "Manual",
-        "nsi": "Automatic",
-        "perceptionsimulation": "Manual",
-        "pla": "Manual",
-        "seclogon": "Manual",
-        "shpamsvc": "Disabled",
-        "smphost": "Manual",
-        "spectrum": "Manual",
-        #"sppsvc": "AutomaticDelayedStart",
-        "ssh-agent": "Disabled",
-        "svsvc": "Manual",
-        "swprv": "Manual",
-        #"tiledatamodelsvc": "Automatic",
-        "tzautoupdate": "Disabled",
-        "uhssvc": "Disabled",
-        "upnphost": "Manual",
-        "vds": "Manual",
-        #"vm3dservice": "Manual",
-        #"vmvss": "Manual",
-        "wbengine": "Manual",
-        "wcncsvc": "Manual",
-        "wercplsupport": "Manual",
-        "wisvc": "Manual",
-        "wlidsvc": "Manual",
-        "wlpasvc": "Manual",
-        "wmiApSrv": "Manual",
-        "workfolderssvc": "Manual",
-        #"wscsvc": "AutomaticDelayedStart",
-        "wuauserv": "Manual",
-        #"wudfsvc": "Manual"
-    }
-'''
+    
     erros = []
 
     for nome, tipo in servicos.items():
@@ -235,12 +21,14 @@ def execute_command():
         resultado = subprocess.run(["powershell", "-Command", comando], capture_output=True, text=True)
 
         if resultado.returncode == 0:
-            messagebox.showinfo("Sucesso", "Otimização de serviços do WINDOWS !")
-        else:
-            messagebox.showerror("Erro", f"Ocorreu um erro:\n{resultado.stderr}")
-        
+            messagebox.showinfo("Sucesso", f"\n{resultado.stderr}")
+        elif:
+            reg_path = fr"SYSTEM\CurrentControlSet\Services\{nome}"
+            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, reg_path, 0, winreg.KEY_SET_VALUE) as key:        
+            winreg.SetValueEx(key, "Start", 0, winreg.REG_DWORD, STARTUP_TYPE_MAP[startup_type])
+            print(f"✔️ Serviço '{service_name}' alterado para '{startup_type}'.")
+            
         if resultado.returncode != 0:
             erros.append(f"{nome}: {resultado.stderr.strip()}")
-        time.sleep(0.25)
 
     return erros if erros else None
