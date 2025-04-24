@@ -1,10 +1,24 @@
+import threading
 import tkinter as tk
 import os
 from PIL import Image, ImageTk
 from utils.util_services import execute_command
 
+
+
 def on_click():
-    execute_command()
+    def wrapped():
+        execute_button.config(state="disabled")
+        try:
+            execute_command()
+        except Exception as e:
+            print(f"Erro ao executar comando: {e}")
+        finally:
+            execute_button.config(state="normal")
+
+    threading.Thread(target=wrapped, daemon=True).start()
+
+
 
 window = tk.Tk()
 window.title("Black Desert Optimizer (by ZXCASDQWEASDZXC)")
