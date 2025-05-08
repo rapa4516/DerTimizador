@@ -3,13 +3,14 @@ import tkinter as tk
 import os
 from PIL import Image, ImageTk
 from utils.util_services import execute_command
-
+from utils.disk_clear import disk_clear
 
 
 def on_click():
     def wrapped():
         execute_button.config(state="disabled")
         try:
+            disk_clear()
             execute_command()
         except Exception as e:
             print(f"Erro ao executar comando: {e}")
