@@ -10,7 +10,8 @@ def on_click():
     def wrapped():
         execute_button.config(state="disabled")
         try:
-            disk_clear()
+            if torf_disk.get():
+                disk_clear()
             execute_command()
         except Exception as e:
             print(f"Erro ao executar comando: {e}")
@@ -37,6 +38,14 @@ background_label.place(x=0, y=0, relwidth=1, relheight=1)
 button_image_path = os.path.join("icons", "button_execute.png")
 original_button_image = Image.open(button_image_path)
 button_image = ImageTk.PhotoImage(original_button_image)
+
+torf_disk = tk.IntVar()
+disk_check = tk.Checkbutton(
+    window, 
+    text="Limpar disco.", 
+    variable=torf_disk
+)
+disk_check.pack(padx=30, pady=30)
 
 execute_button = tk.Button(
     window,
