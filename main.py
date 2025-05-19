@@ -43,7 +43,8 @@ torf_disk = tk.IntVar()
 disk_check = tk.Checkbutton(
     window, 
     text="Limpar disco.", 
-    variable=torf_disk
+    variable=torf_disk,
+
 )
 disk_check.pack(padx=30, pady=30)
 
@@ -52,8 +53,7 @@ execute_button = tk.Button(
     image=button_image,
     command=on_click,
     bg="#1e1e1e",
-    bd=0,
-    activebackground="#1e1e1e"
+    bd=0
 )
 
 execute_button.image = button_image
