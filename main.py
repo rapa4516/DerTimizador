@@ -4,6 +4,7 @@ import os
 from PIL import Image, ImageTk
 from utils.util_services import execute_command
 from utils.disk_clear import disk_clear
+from tkinter import PhotoImage
 
 
 def on_click():
@@ -28,9 +29,8 @@ window.geometry("680x402")
 window.resizable(False, False)
 
 background_path = os.path.join("icons", "bg_main.png")
-original_background_image = Image.open(background_path)
-resized_background_image = original_background_image.resize((680, 402))
-background_image = ImageTk.PhotoImage(resized_background_image)
+original_background_image = Image.open(background_path).resize((680, 402))
+background_image = ImageTk.PhotoImage(original_background_image)
 
 background_label = tk.Label(window, image=background_image, bg="#222229")
 background_label.place(x=0, y=0, relwidth=1, relheight=1)
@@ -39,14 +39,22 @@ button_image_path = os.path.join("icons", "button_execute.png")
 original_button_image = Image.open(button_image_path)
 button_image = ImageTk.PhotoImage(original_button_image)
 
+image_checkbox_checked = PhotoImage(file="icons/checkbox_check.png")
+image_checkbox_unchecked = PhotoImage(file="icons/checkbox_uncheck.png")
+
 torf_disk = tk.IntVar()
 disk_check = tk.Checkbutton(
     window, 
     text="Limpar disco.", 
     variable=torf_disk,
-
 )
-disk_check.pack(padx=30, pady=30)
+
+def toggle_checkbox():
+    if torf_disk.get() == 0:
+        torf_disk.set(1)       
+    else:
+        torf_disk.set(0)
+        
 
 execute_button = tk.Button(
     window,
